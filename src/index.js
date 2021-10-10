@@ -29,8 +29,15 @@ function calWin(squares){
       return squares[a];
     }
   }
-  return null;
+
+  if(!squares.includes(null)){
+      return 'draw';
+  }else{
+    return null;
+  }
+  
 }
+
 
 class Board extends React.Component {
   constructor(props){
@@ -58,12 +65,15 @@ class Board extends React.Component {
   render() {
     const winner =  calWin(this.state.squares);
     let status;
-    if (winner) {
+    if(winner && winner !== 'draw'){
       status = 'Winner: ' +winner;
+    }else if (winner && winner === 'draw'){
+      status = 'It is a ' + winner;
     }
     else{
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
+    
     
 
     return (
