@@ -3,13 +3,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 function Square(props) {
+  if(props.value!=null){
+    return (
+      <button className="square square-filled" onClick={ props.onClick } >
+        {props.value}
+      </button>
+    );
+  }
+  else{
 
-  return (
-    <button className="square" onClick={ props.onClick }>
-      {props.value}
-    </button>
-  );
+    return (
+      <button className="square square-x" onClick={ props.onClick } >
+        {props.value}
+      </button>
+    );
 
+  }
+  
+  
 }
 
 function calWin(squares){
@@ -40,14 +51,15 @@ function calWin(squares){
 
 
 class Board extends React.Component {
+
+
   renderSquare(i) {
     return <Square value={this.props.squares[i]} onClick={ ()=> this.props.onClick(i)}/>;
   }
 
   render() {
-
     return (
-      <div>
+      <div className="gameTable">
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
@@ -69,6 +81,7 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
+
   constructor(props){
     super(props);
     this.state={
@@ -95,6 +108,7 @@ class Game extends React.Component {
       stepNumber: history.length,
       xIsNext : !this.state.xIsNext,
     });
+    
   }
 
   jumpTo(step) {
@@ -131,15 +145,15 @@ class Game extends React.Component {
     }
     return (
       <div className="game">
-        <div className="game-board">
+        <div className={"game-board "+ (this.state.xIsNext ? 'squares-x' : 'squares-o')}>
           <Board 
             squares={current.squares}
             onClick={(i) => this.handleClick(i)}
           />
         </div>
         <div className="game-info">
-          <div>{status}</div>
-          <ol>{moves}</ol>
+          <div className="gameStatus">{status}</div>
+          <ol className="gameStep">{moves}</ol>
         </div>
       </div>
     );

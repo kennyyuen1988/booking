@@ -4,7 +4,22 @@ body {
 }
 
 ol, ul {
-  padding-left: 30px;
+  padding-left: 16px;
+}
+
+ol.gameStep button {
+  background: #0055cc;
+  border: none;
+  padding: 8px;
+  margin-bottom: 8px;
+  color: #fff;
+  border-radius: 6px;
+  width: 120px;
+}
+
+ol.gameStep button:hover {
+  background: #0070cc;
+  cursor: pointer;
 }
 
 .board-row:after {
@@ -32,6 +47,43 @@ ol, ul {
   width: 34px;
 }
 
+.square:hover {
+  background-color: #f2f2f2;
+}
+
+div.squares-x button.square:hover:before {
+  content: "X";
+  opacity: 0.2;
+}
+
+div.squares-o button.square:hover:before {
+  content: "O";
+  opacity: 0.2;
+}
+
+
+div.squares-o button.square-filled:hover{
+  background-color: initial; 
+}
+div.squares-o button.square-filled:hover:before {
+    content: "";
+}
+
+div.squares-x button.square-filled:hover{
+  background-color: initial; 
+}
+div.squares-x button.square-filled:hover:before {
+    content: "";
+}
+
+.board-row:first-child .square:first-child {
+  border-radius: 10px 0 0;
+}
+
+.board-row:last-child .square:last-child {
+  border-radius: 0 0 10px;
+}
+
 .square:focus {
   outline: none;
 }
@@ -45,6 +97,21 @@ ol, ul {
   flex-direction: row;
 }
 
+.gameTable{
+  margin-top: 3px;
+}
+
+.gameStep{
+  margin-bottom: 0;
+}
+
+.gameBoard{
+  margin-top: 3px;
+}
+
 .game-info {
   margin-left: 20px;
+  background: #f2f2f2;
+  padding: 12px;
+  border-radius: 10px;
 }
