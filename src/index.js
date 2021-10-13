@@ -13,7 +13,7 @@ function Square(props) {
   else{
 
     return (
-      <button className="square square-x" onClick={ props.onClick } >
+      <button className="square" onClick={ props.onClick } >
         {props.value}
       </button>
     );
