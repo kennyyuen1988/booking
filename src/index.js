@@ -2,27 +2,34 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Square(props) {
-  if(props.value!=null){
-    return (
-      <button className="square square-filled" onClick={ props.onClick } >
-        {props.value}
-      </button>
-    );
-  }
-  else{
 
-    return (
-      <button className="square" onClick={ props.onClick } >
-        {props.value}
-      </button>
-    );
+class Square extends React.Component {
 
+  render() {
+    if(this.props.value!=null){
+      if (this.props.status==="highlight") {
+        return (
+          <button className="square square-filled square-hightlight" onClick={ this.props.onClick } >
+            {this.props.value}
+          </button>
+        );
+      }else{
+        return (
+          <button className="square square-filled" onClick={ this.props.onClick } >
+            {this.props.value}
+          </button>
+        );
+      }
+    }
+    else{
+      return (
+        <button className="square" onClick={ this.props.onClick } >
+          {this.props.value}
+        </button>
+      );
+    }
   }
-  
-  
 }
-
 function calWin(squares){
   const winPattern =[
     [0,1,2],
@@ -36,8 +43,12 @@ function calWin(squares){
   ];
   for (let i=0; i<winPattern.length; i++){
     const [a,b,c] = winPattern[i];
+    //console.log("calwin: "+squares[a]+winPattern[i]);
     if(squares[a]&&squares[a]===squares[b]&&squares[a]===squares[c]){
-      return squares[a];
+      //const winFormat = [a, b, c];
+      //console.log("typeof: " + Array.isArray(winFormat));
+      //return squares[a];
+      return [a, b, c];
     }
   }
 
@@ -52,9 +63,15 @@ function calWin(squares){
 
 class Board extends React.Component {
 
-
   renderSquare(i) {
-    return <Square value={this.props.squares[i]} onClick={ ()=> this.props.onClick(i)}/>;
+    const winTeam = this.props.winner;
+    //const winTeam = [1,4,7];
+    if (winTeam) {
+      if (i===winTeam[0] || i===winTeam[1] || i===winTeam[2]) {
+        return <Square value={this.props.squares[i]} status={"highlight"} num={i} onClick={ ()=> this.props.onClick(i)}/>;    
+      }
+    }
+    return <Square value={this.props.squares[i]} status={winTeam} num={i} onClick={ ()=> this.props.onClick(i)}/>;
   }
 
   render() {
@@ -121,6 +138,7 @@ class Game extends React.Component {
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
+    //const winFormat = calWinTeam(current.squares);
     const winner = calWin(current.squares);
 
     const moves = history.map((step,move) => {
@@ -136,7 +154,7 @@ class Game extends React.Component {
 
     let status;
     if(winner && winner !== 'draw'){
-      status = 'Winner: ' +winner;
+      status = 'Winner: ' +current.squares[winner[0]];
     }else if (winner && winner === 'draw'){
       status = 'It is a ' + winner;
     }
@@ -148,6 +166,7 @@ class Game extends React.Component {
         <div className={"game-board "+ (this.state.xIsNext ? 'squares-x' : 'squares-o')}>
           <Board 
             squares={current.squares}
+            winner={winner}
             onClick={(i) => this.handleClick(i)}
           />
         </div>

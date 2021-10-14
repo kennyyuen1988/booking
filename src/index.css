@@ -76,6 +76,10 @@ div.squares-x button.square-filled:hover:before {
     content: "";
 }
 
+.square-hightlight{
+  color: #0055cc;
+}
+
 .board-row:first-child .square:first-child {
   border-radius: 10px 0 0;
 }
